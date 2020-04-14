@@ -42,7 +42,7 @@ public class Tile {
     }
 
     public void show(GraphicsContext gc) {
-        if (hasCard) gc.drawImage(card.getImage(), getRealX(), getRealY());
+        if (hasCard) { card.show(gc, getRealX(), getRealY()); }
     }
 
     public int getNextSpotIndex(int prevSpot) {

@@ -4,12 +4,16 @@ import javafx.scene.paint.Color;
 public class Board {
 
     public static final int DIM = 6;
-    public static final int SIZE = 802;
+    public static final int SIZEX = 969;
+    public static final int SIZEY = 802;
     public static final int MARGIN = 50;
 
+    private Tsuro tsuro;
     private Tile[][] tiles;
 
-    public Board() {
+    public Board(Tsuro myTsuro) {
+
+        tsuro = myTsuro;
 
         tiles = new Tile[DIM][DIM];
         for (int i = 0; i < DIM; i++) {
@@ -23,7 +27,7 @@ public class Board {
     public void show(GraphicsContext gc) {
 
         gc.setFill(Color.GREY);
-        gc.fillRect(0, 0, SIZE, SIZE);
+        gc.fillRect(0, 0, SIZEX, SIZEY);
 
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
@@ -31,10 +35,11 @@ public class Board {
             }
         }
 
+        gc.setStroke(Color.BLACK);
         gc.setLineWidth(3);
         for (int i = 0; i < DIM + 1; i++) {
-            gc.strokeLine(MARGIN, Tile.SIZE*i + MARGIN, SIZE-MARGIN, Tile.SIZE*i + MARGIN);
-            gc.strokeLine(Tile.SIZE*i + MARGIN, MARGIN, Tile.SIZE*i + MARGIN, SIZE-MARGIN);
+            gc.strokeLine(MARGIN, Tile.SIZE*i + MARGIN, SIZEX-2*MARGIN-Tile.SIZE, Tile.SIZE*i + MARGIN);
+            gc.strokeLine(Tile.SIZE*i + MARGIN, MARGIN, Tile.SIZE*i + MARGIN, SIZEY-MARGIN);
         }
 
     }
@@ -71,10 +76,10 @@ public class Board {
     }
 
     // TESTING
-    public void applyCardsToTiles(Deck deck) {
+    public void applyCardsToTiles() {
         for (int i = 0; i < DIM; i++) {
             for (int j = 0; j < DIM; j++) {
-                tiles[i][j].setCard(deck.draw());
+                tiles[i][j].setCard(tsuro.drawCard());
             }
         }
     }

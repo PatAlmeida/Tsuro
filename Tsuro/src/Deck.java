@@ -7,13 +7,14 @@ public class Deck {
     public static final int SIZE = 35;
     private static final boolean PRINT_DECK_EMPTY = false;
 
+    private Tsuro tsuro;
     private Card[] cards;
     private int deckPointer;
 
-    public Deck() {
+    public Deck(Tsuro myTsuro) {
 
+        tsuro = myTsuro;
         cards = new Card[SIZE];
-
         deckPointer = 0;
 
         for (int i = 0; i < SIZE; i++) {
