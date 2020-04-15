@@ -18,7 +18,7 @@ public class Player {
         spotIndex = si;
         color = col;
         goneOffBoard = false;
-        hand = new Hand(tsuro);
+        hand = new Hand(this, tsuro);
     }
 
     public void show(GraphicsContext gc) {
@@ -30,14 +30,16 @@ public class Player {
     }
 
     public int getNextSpotIndex() { return tile.getNextSpotIndex(spotIndex); }
-    public void showHand(GraphicsContext gc) { hand.show(gc); }
-    public void checkHandHover(double x, double y) { hand.checkHover(x, y); }
-    public void rotateHand() { hand.rotate(); }
     public int getTileX() { return tile.getX(); }
     public int getTileY() { return tile.getY(); }
     public Tile getTile() { return tile; }
     public int getSpotIndex() { return spotIndex; }
     public boolean hasGoneOffBoard() { return goneOffBoard; }
+
+    public void showHand(GraphicsContext gc) { hand.show(gc); }
+    public void checkHandHover(double x, double y) { hand.checkHover(x, y); }
+    public void checkHandClick(double x, double y) { hand.checkClick(x, y); }
+    public void rotateHand() { hand.rotate(); }
     public void setTile(Tile newTile) { tile = newTile; }
     public void setSpotIndex(int newSI) { spotIndex = newSI; }
     public void wentOffBoard() { goneOffBoard = true; }

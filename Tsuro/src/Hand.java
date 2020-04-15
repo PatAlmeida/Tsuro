@@ -13,11 +13,13 @@ public class Hand {
     private static final int STARTX = 2*Board.MARGIN + 6*Tile.SIZE;
     private static final int STARTY = (Board.SIZEY - (3*Tile.SIZE + 2*Hand.SB)) / 2;
 
+    private Player player;
     private Tsuro tsuro;
     private ArrayList<Card> cards;
     private ArrayList<Color> borders;
 
-    public Hand(Tsuro myTsuro) {
+    public Hand(Player myPlayer, Tsuro myTsuro) {
+        player = myPlayer;
         tsuro = myTsuro;
         cards = new ArrayList<Card>();
         borders = new ArrayList<Color>();
@@ -28,10 +30,12 @@ public class Hand {
     public void show(GraphicsContext gc) {
         int y = STARTY;
         for (int i = 0; i < cards.size(); i++) {
-            cards.get(i).show(gc, STARTX, y);
-            gc.setStroke(borders.get(i));
-            gc.strokeRect(STARTX, y, Tile.SIZE, Tile.SIZE);
-            y += SB + Tile.SIZE;
+            if (cards.get(i) != null) {
+                cards.get(i).show(gc, STARTX, y);
+                gc.setStroke(borders.get(i));
+                gc.strokeRect(STARTX, y, Tile.SIZE, Tile.SIZE);
+                y += SB + Tile.SIZE;
+            }
         }
     }
 
@@ -49,6 +53,20 @@ public class Hand {
             } else borders.set(i, INIT_COL);
             y += SB + Tile.SIZE;
         }
+    }
+
+    public void checkClick(double mx, double my) {
+        int removeIndex = -1;
+        for (int i = 0; i < cards.size(); i++) {
+            if (borders.get(i) == HOVER_COL && !player.hasGoneOffBoard()) {
+                player.getTile().setCard(cards.get(i));
+                Card newCard = tsuro.drawCard();
+                if (newCard == null) removeIndex = i;
+                else cards.set(i, newCard);
+                tsuro.playerFollowPath(player);
+            }
+        }
+        if (removeIndex != -1) cards.remove(removeIndex);
     }
 
 }

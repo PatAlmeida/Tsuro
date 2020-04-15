@@ -42,7 +42,7 @@ public class Tile {
     }
 
     public void show(GraphicsContext gc) {
-        if (hasCard) { card.show(gc, getRealX(), getRealY()); }
+        if (hasCard) card.show(gc, getRealX(), getRealY());
     }
 
     public int getNextSpotIndex(int prevSpot) {
@@ -56,6 +56,7 @@ public class Tile {
 
     public int getX() { return x; }
     public int getY() { return y; }
+    public boolean hasCard() { return hasCard; }
 
     public int getRealX() { return x * SIZE + Board.MARGIN; }
     public int getRealY() { return y * SIZE + Board.MARGIN; }

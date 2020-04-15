@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Deck {
 
     public static final int SIZE = 35;
-    private static final boolean PRINT_DECK_EMPTY = false;
+    private static final boolean PRINT_DECK_EMPTY = true;
 
     private Tsuro tsuro;
     private Card[] cards;

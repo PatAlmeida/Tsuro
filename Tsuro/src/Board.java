@@ -75,6 +75,14 @@ public class Board {
 
     }
 
+    public void playerFollowPath(Player player) {
+
+        while (player.getTile().hasCard() && !player.hasGoneOffBoard()) {
+            playerFollowTile(player);
+        }
+
+    }
+
     // TESTING
     public void applyCardsToTiles() {
         for (int i = 0; i < DIM; i++) {

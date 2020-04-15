@@ -40,6 +40,7 @@ public class PlayerList {
 
     public void showHand(GraphicsContext gc) { players[0].showHand(gc); }
     public void checkHandHover(double x, double y) { players[0].checkHandHover(x, y); }
+    public void checkHandClick(double x, double y) { players[0].checkHandClick(x, y); }
     public void rotateHand() { players[0].rotateHand(); }
 
     public void testStuff(Board board) {

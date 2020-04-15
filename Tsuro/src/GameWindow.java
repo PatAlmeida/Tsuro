@@ -22,14 +22,11 @@ public class GameWindow {
         Scene scene = new Scene(root);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        scene.setOnMouseMoved(e -> {
-            tsuro.checkHandHover(e.getX(), e.getY());
-        });
+        scene.setOnMouseMoved(e -> { tsuro.checkHandHover(e.getX(), e.getY()); });
+        scene.setOnMouseClicked(e -> { tsuro.checkHandClick(e.getX(), e.getY()); });
 
         scene.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.R) {
-                tsuro.rotateHand();
-            }
+            if (e.getCode() == KeyCode.R) tsuro.rotateHand();
         });
 
         // Animation loop - runs at (about) 60fps
