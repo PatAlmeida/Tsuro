@@ -24,6 +24,19 @@ public class Board {
 
     }
 
+    public Board(Tsuro myTsuro, Board board) {
+
+        tsuro = myTsuro;
+
+        tiles = new Tile[DIM][DIM];
+        for (int i = 0; i < DIM; i++) {
+            for (int j = 0; j < DIM; j++) {
+                tiles[i][j] = new Tile(board.getTile(i, j));
+            }
+        }
+
+    }
+
     public void show(GraphicsContext gc) {
 
         gc.setFill(Color.GREY);
@@ -76,11 +89,9 @@ public class Board {
     }
 
     public void playerFollowPath(Player player) {
-
         while (player.getTile().hasCard() && !player.hasGoneOffBoard()) {
             playerFollowTile(player);
         }
-
     }
 
     // TESTING
@@ -92,6 +103,7 @@ public class Board {
         }
     }
 
+    public boolean cardAt50() { return tiles[5][0].hasCard(); }
     public Tile getTile(int i, int j) { return tiles[i][j]; }
 
 }

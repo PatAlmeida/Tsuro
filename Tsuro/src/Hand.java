@@ -23,9 +23,26 @@ public class Hand {
         tsuro = myTsuro;
         cards = new ArrayList<Card>();
         borders = new ArrayList<Color>();
-        for (int i = 0; i < MAX_SIZE; i++) cards.add(tsuro.drawCard());
-        for (int i = 0; i < MAX_SIZE; i++) borders.add(INIT_COL);
+        for (int i = 0; i < MAX_SIZE; i++) {
+            cards.add(tsuro.drawCard());
+            borders.add(INIT_COL);
+        }
     }
+
+    public Hand(Player myPlayer, Tsuro myTsuro, Hand hand) {
+        player = myPlayer;
+        tsuro = myTsuro;
+        cards = new ArrayList<Card>();
+        borders = new ArrayList<Color>();
+        for (int i = 0; i < hand.getCurSize(); i++) {
+            cards.add(new Card(hand.getCard(i)));
+            borders.add(hand.getBorderCol(i));
+        }
+    }
+
+    private int getCurSize() { return cards.size(); }
+    private Card getCard(int i) { return cards.get(i); }
+    private Color getBorderCol(int i) { return borders.get(i); }
 
     public void show(GraphicsContext gc) {
         int y = STARTY;
@@ -43,6 +60,14 @@ public class Hand {
         for (int i = 0; i < cards.size(); i++) {
             if (borders.get(i) == HOVER_COL) cards.get(i).incRot();
         }
+    }
+
+    public void playCard(int num) {
+        player.getTile().setCard(cards.get(num));
+        Card newCard = tsuro.drawCard();
+        if (newCard == null) cards.remove(num);
+        else cards.set(num, newCard);
+        tsuro.playersFollowPath();
     }
 
     public void checkHover(double mx, double my) {
@@ -63,7 +88,7 @@ public class Hand {
                 Card newCard = tsuro.drawCard();
                 if (newCard == null) removeIndex = i;
                 else cards.set(i, newCard);
-                tsuro.playerFollowPath(player);
+                tsuro.playersFollowPath();
             }
         }
         if (removeIndex != -1) cards.remove(removeIndex);

@@ -6,12 +6,19 @@ public class Card {
     public static final int PATHS = 8;
 
     private Image image;
-    private int[] paths;
     private int rot;
+    private int[] paths;
 
     public Card(int index) {
         image = new Image("file:images/tile" + index + ".png");
         rot = 0;
+    }
+
+    public Card(Card card) {
+        image = card.getImage();
+        rot = card.getRot();
+        paths = new int[PATHS];
+        for (int i = 0; i < PATHS; i++) paths[i] = card.getPathNum(i);
     }
 
     public void show(GraphicsContext gc, int x, int y) {
@@ -50,6 +57,7 @@ public class Card {
 
     public Image getImage() { return image; }
     public int getRot() { return rot; }
+    private int getPathNum(int i) { return paths[i]; }
 
     public void setPaths(int[] pathsArr) { paths = pathsArr; }
 

@@ -15,6 +15,12 @@ public class Tile {
         x = xPos; y = yPos;
         hasCard = false;
     }
+    public Tile(Tile tile) {
+        x = tile.getX(); y = tile.getY();
+        hasCard = tile.hasCard();
+        if (hasCard) card = new Card(tile.getCard());
+        else card = null;
+    }
 
     public static Offsets getOffsets(int spotIndex) {
         int xOff = 0; int yOff = 0;
@@ -57,6 +63,7 @@ public class Tile {
     public int getX() { return x; }
     public int getY() { return y; }
     public boolean hasCard() { return hasCard; }
+    private Card getCard() { return card; }
 
     public int getRealX() { return x * SIZE + Board.MARGIN; }
     public int getRealY() { return y * SIZE + Board.MARGIN; }
