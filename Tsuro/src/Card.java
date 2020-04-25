@@ -1,21 +1,33 @@
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 public class Card {
 
     public static final int PATHS = 8;
+    public static final int ROTATIONS = 4;
+    public static final boolean SHOW_ID = true;
 
     private Image image;
-    private int rot;
+    private int id, rot;
     private int[] paths;
 
     public Card(int index) {
         image = new Image("file:images/tile" + index + ".png");
+        id = index;
         rot = 0;
+    }
+
+    public Card(CardInfoHelper info) {
+        image = info.image;
+        id = info.id; rot = info.rot;
+        paths = new int[PATHS];
+        for (int i = 0; i < PATHS; i++) paths[i] = info.paths[i];
     }
 
     public Card(Card card) {
         image = card.getImage();
+        id = card.getID();
         rot = card.getRot();
         paths = new int[PATHS];
         for (int i = 0; i < PATHS; i++) paths[i] = card.getPathNum(i);
@@ -30,6 +42,11 @@ public class Card {
         gc.rotate(rot);
         gc.drawImage(image, 0, 0);
         gc.restore();
+        if (SHOW_ID) {
+            gc.setStroke(Color.BLACK);
+            gc.setLineWidth(1);
+            gc.strokeText(id + "", x+5, y+15);
+        }
     }
 
     public int getNextSpotFor(int prevSpot) {
@@ -48,6 +65,7 @@ public class Card {
 
     public void incRot() {
         rot += 90;
+        if (rot == 360) rot = 0;
         int[] newPaths = new int[PATHS];
         for (int i = 0; i < PATHS; i++) {
             newPaths[i] = (paths[(i+2) % 8] + 6) % 8;
@@ -55,9 +73,12 @@ public class Card {
         for (int i = 0; i < PATHS; i++) paths[i] = newPaths[i]; // Copy
     }
 
-    public Image getImage() { return image; }
-    public int getRot() { return rot; }
     private int getPathNum(int i) { return paths[i]; }
+
+    public Image getImage() { return image; }
+    public int getID() { return id; }
+    public int getRot() { return rot; }
+    public int[] getPaths() { return paths; }
 
     public void setPaths(int[] pathsArr) { paths = pathsArr; }
 

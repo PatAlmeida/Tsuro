@@ -11,6 +11,7 @@ public class Tsuro extends Application implements Cloneable {
 
     public static final boolean TESTING = false;
     public static final boolean USE_SET_COLORS = true;
+    public static final boolean PATH_ANIM_TESTING = false;
 
     private Deck deck;
     private Board board;
@@ -30,7 +31,7 @@ public class Tsuro extends Application implements Cloneable {
 
     }
 
-    // Deep Copy
+    // Deep Copy --- Depreciated ? ---
     public Tsuro clone() throws CloneNotSupportedException {
         Tsuro tsuro = (Tsuro) super.clone();
         tsuro.deck = new Deck(tsuro, deck);
@@ -44,6 +45,7 @@ public class Tsuro extends Application implements Cloneable {
     public Card drawCard() { return deck.draw(); }
     public boolean hasPlayerGoneOffBoard(int pID) { return players.hasPlayerGoneOffBoard(pID); }
     public int getDeckPointer() { return deck.getDeckPointer(); }
+    public LocationInfo[] getPlayersLocationInfo() { return players.getAllLocationInfo(); }
 
     public void showBoard(GraphicsContext gc) { board.show(gc); }
     public void showPlayers(GraphicsContext gc) { players.show(gc); }
@@ -54,6 +56,8 @@ public class Tsuro extends Application implements Cloneable {
     public void playersFollowPath() { players.followPath(); }
     public void playerFollowPath(Player player) { board.playerFollowPath(player); }
     public void updateWindowTsuro(Tsuro tsuro) { window.updateTsuro(tsuro); }
+    public void resetLocationInfo(LocationInfo[] locs) { players.resetLocationInfo(locs); }
+    public void decrementDeckPointer() { deck.decrementPointer(); }
 
     // TESTING
     public void testMakeMove() {

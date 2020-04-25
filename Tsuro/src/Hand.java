@@ -40,20 +40,29 @@ public class Hand {
         }
     }
 
-    private int getCurSize() { return cards.size(); }
-    private Card getCard(int i) { return cards.get(i); }
     private Color getBorderCol(int i) { return borders.get(i); }
+
+    public Card getCard(int i) { return cards.get(i); }
+    public int getCurSize() { return cards.size(); }
+
+    public void setCard(int i, Card c) { cards.set(i, c); }
 
     public void show(GraphicsContext gc) {
         int y = STARTY;
         for (int i = 0; i < cards.size(); i++) {
             if (cards.get(i) != null) {
                 cards.get(i).show(gc, STARTX, y);
+                gc.setStroke(Color.BLACK);
+                gc.setLineWidth(3);
                 gc.setStroke(borders.get(i));
                 gc.strokeRect(STARTX, y, Tile.SIZE, Tile.SIZE);
                 y += SB + Tile.SIZE;
             }
         }
+    }
+
+    public void addDummyCard(int i) {
+        cards.add(i, null);
     }
 
     public void rotate() {

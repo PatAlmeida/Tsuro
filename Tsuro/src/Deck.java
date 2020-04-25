@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Deck {
 
     public static final int SIZE = 35;
-    private static final boolean PRINT_DECK_EMPTY = true;
+    private static final boolean PRINT_DECK_EMPTY = false;
 
     private Tsuro tsuro;
     private Card[] cards;
@@ -55,8 +55,11 @@ public class Deck {
 
     }
 
-    public int getDeckPointer() { return deckPointer; }
     private Card getCard(int i) { return cards[i]; }
+
+    public int getDeckPointer() { return deckPointer; }
+
+    public void decrementPointer() { deckPointer--; }
 
     public Card draw() {
         if (deckPointer < SIZE) {

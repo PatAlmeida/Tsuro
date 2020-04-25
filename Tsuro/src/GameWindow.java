@@ -10,11 +10,14 @@ import javafx.stage.Stage;
 public class GameWindow {
 
     private Tsuro tsuro;
-    private int count = 1;
+    private int count;
+    private boolean paused;
 
     public GameWindow(Tsuro myTsuro, Stage myStage) {
 
         tsuro = myTsuro;
+        count = 1;
+        paused = false;
 
         StackPane root = new StackPane();
         Canvas canvas = new Canvas(Board.SIZEX, Board.SIZEY);
@@ -28,6 +31,7 @@ public class GameWindow {
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.R) tsuro.rotateHand();
             if (e.getCode() == KeyCode.M) tsuro.testMakeMove();
+            if (e.getCode() == KeyCode.P) paused = !paused;
         });
 
         // Animation loop - runs at (about) 60fps
@@ -38,9 +42,7 @@ public class GameWindow {
                 tsuro.showPlayers(gc);
                 tsuro.showHand(gc);
 
-                if (Tsuro.TESTING) {
-
-                }
+                if (count % 10 == 0 && !paused) tsuro.testMakeMove();
 
                 count++;
 

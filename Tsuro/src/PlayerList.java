@@ -46,15 +46,28 @@ public class PlayerList {
         }
     }
 
+    public void resetLocationInfo(LocationInfo[] locationInfo) {
+        for (int i = 0; i < SIZE; i++) players[i].resetTo(locationInfo[i]);
+    }
+
     public void followPath() {
         for (Player player : players) {
             tsuro.playerFollowPath(player);
         }
     }
 
+    public LocationInfo[] getAllLocationInfo() {
+        LocationInfo[] locs = new LocationInfo[SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            Player p = players[i];
+            locs[i] = new LocationInfo(p.getTileX(), p.getTileY(), p.getSpotIndex(), p.hasGoneOffBoard());
+        }
+        return locs;
+    }
+
     // TESTING
     public void testMakeMove() {
-        players[0].playNonLosingMove();
+        if (!players[0].hasGoneOffBoard()) players[0].playNonLosingMove();
     }
 
     // TESTING

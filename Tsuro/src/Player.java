@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -46,19 +47,65 @@ public class Player {
 
     public void playNonLosingMove() {
 
-        try {
+        if (hand.getCurSize() == 0 || goneOffBoard) return;
 
-            Tsuro orig = tsuro.clone();
+        int startingSize = hand.getCurSize();
+        LocationInfo[] locationInfo = tsuro.getPlayersLocationInfo();
+        ArrayList<HandIDRotPair> livingPlays = new ArrayList<HandIDRotPair>();
 
-            hand.playCard(0);
-            System.out.println(tsuro.hasPlayerGoneOffBoard(0));
+        for (int i = 0; i < startingSize; i++) {
 
-            tsuro = orig;
+            Card c = hand.getCard(i);
+            CardInfoHelper cardInfo = new CardInfoHelper(c.getImage(), c.getID(), c.getRot(), c.getPaths());
 
-        } catch (CloneNotSupportedException ex) {
-            ex.printStackTrace();
+            for (int j = 0; j < Card.ROTATIONS; j++) {
+
+                for (int k = 0; k < j; k++) hand.getCard(i).incRot();
+                hand.playCard(i);
+
+                if (!tsuro.hasPlayerGoneOffBoard(id)) {
+                    livingPlays.add(new HandIDRotPair(i, j));
+                }
+
+                tsuro.resetLocationInfo(locationInfo);
+                if (!goneOffBoard) tile.removeCard();
+
+                if (hand.getCurSize() != startingSize) hand.addDummyCard(i);
+                else tsuro.decrementDeckPointer();
+
+                hand.setCard(i, new Card(cardInfo));
+
+            }
         }
 
+        chooseAndPlayMove(livingPlays);
+
+    }
+
+    private void chooseAndPlayMove(ArrayList<HandIDRotPair> livingPlays) {
+
+        HandIDRotPair play = null;
+        boolean noGoodMove = false;
+        if (livingPlays.size() > 0) {
+            int rand = (int) (Math.random() * livingPlays.size());
+            play = livingPlays.get(rand);
+        } else {
+            noGoodMove = true;
+            play = new HandIDRotPair(0, 0);
+        }
+
+        if (!(noGoodMove && Tsuro.PATH_ANIM_TESTING)) {
+            for (int i = 0; i < play.rotations; i++) hand.getCard(play.handID).incRot();
+            hand.playCard(play.handID);
+            tsuro.playersFollowPath();
+        }
+
+    }
+
+    public void resetTo(LocationInfo locInfo) {
+        tile = tsuro.getBoardTile(locInfo.tileY, locInfo.tileX);
+        spotIndex = locInfo.spotIndex;
+        goneOffBoard = locInfo.goneOffBoard;
     }
 
     private Hand getHand() { return hand; }
