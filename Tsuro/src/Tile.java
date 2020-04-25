@@ -15,12 +15,6 @@ public class Tile {
         x = xPos; y = yPos;
         hasCard = false;
     }
-    public Tile(Tile tile) {
-        x = tile.getX(); y = tile.getY();
-        hasCard = tile.hasCard();
-        if (hasCard) card = new Card(tile.getCard());
-        else card = null;
-    }
 
     public static Offsets getOffsets(int spotIndex) {
         int xOff = 0; int yOff = 0;

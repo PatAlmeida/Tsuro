@@ -29,17 +29,6 @@ public class Hand {
         }
     }
 
-    public Hand(Player myPlayer, Tsuro myTsuro, Hand hand) {
-        player = myPlayer;
-        tsuro = myTsuro;
-        cards = new ArrayList<Card>();
-        borders = new ArrayList<Color>();
-        for (int i = 0; i < hand.getCurSize(); i++) {
-            cards.add(new Card(hand.getCard(i)));
-            borders.add(hand.getBorderCol(i));
-        }
-    }
-
     private Color getBorderCol(int i) { return borders.get(i); }
 
     public Card getCard(int i) { return cards.get(i); }
@@ -92,12 +81,13 @@ public class Hand {
     public void checkClick(double mx, double my) {
         int removeIndex = -1;
         for (int i = 0; i < cards.size(); i++) {
-            if (borders.get(i) == HOVER_COL && !player.hasGoneOffBoard()) {
+            if (borders.get(i) == HOVER_COL && !player.hasGoneOffBoard() && tsuro.isHumanTurn()) {
                 player.getTile().setCard(cards.get(i));
                 Card newCard = tsuro.drawCard();
                 if (newCard == null) removeIndex = i;
                 else cards.set(i, newCard);
                 tsuro.playersFollowPath();
+                tsuro.humanTurnFinish();
             }
         }
         if (removeIndex != -1) cards.remove(removeIndex);

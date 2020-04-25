@@ -25,14 +25,6 @@ public class Card {
         for (int i = 0; i < PATHS; i++) paths[i] = info.paths[i];
     }
 
-    public Card(Card card) {
-        image = card.getImage();
-        id = card.getID();
-        rot = card.getRot();
-        paths = new int[PATHS];
-        for (int i = 0; i < PATHS; i++) paths[i] = card.getPathNum(i);
-    }
-
     public void show(GraphicsContext gc, int x, int y) {
         int xOff = 0; int yOff = 0; int r = rot % 360;
         if (r == 90 || r == 180) xOff = Tile.SIZE;

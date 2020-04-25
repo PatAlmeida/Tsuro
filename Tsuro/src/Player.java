@@ -23,16 +23,6 @@ public class Player {
         hand = new Hand(this, tsuro);
     }
 
-    public Player(Tsuro myTsuro, Player player) {
-        tsuro = myTsuro;
-        tile = new Tile(player.getTile());
-        id = player.getID();
-        spotIndex = player.getSpotIndex();
-        color = player.getColor();
-        goneOffBoard = player.hasGoneOffBoard();
-        hand = new Hand(this, tsuro, player.getHand());
-    }
-
     public void show(GraphicsContext gc) {
         Offsets off = Tile.getOffsets(spotIndex);
         gc.setFill(Color.BLACK);

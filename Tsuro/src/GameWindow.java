@@ -30,8 +30,8 @@ public class GameWindow {
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.R) tsuro.rotateHand();
-            if (e.getCode() == KeyCode.M) tsuro.testMakeMove();
             if (e.getCode() == KeyCode.P) paused = !paused;
+            if (e.getCode() == KeyCode.Z) tsuro.start(myStage); // Careful with this
         });
 
         // Animation loop - runs at (about) 60fps
@@ -42,7 +42,8 @@ public class GameWindow {
                 tsuro.showPlayers(gc);
                 tsuro.showHand(gc);
 
-                if (count % 10 == 0 && !paused) tsuro.testMakeMove();
+                if (Tsuro.AI_ANIM) aiAnimation();
+                if (Tsuro.PLAY_GAME) tsuro.updateGame(count);
 
                 count++;
 
@@ -55,6 +56,8 @@ public class GameWindow {
 
     }
 
-    public void updateTsuro(Tsuro myTsuro) { tsuro = myTsuro; }
+    private void aiAnimation() {
+        if (count % 10 == 0 && !paused) tsuro.playNonLosingMoveFor(0);
+    }
 
 }

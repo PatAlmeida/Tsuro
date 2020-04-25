@@ -43,18 +43,6 @@ public class Deck {
 
     }
 
-    public Deck(Tsuro myTsuro, Deck deck) {
-
-        tsuro = myTsuro;
-        cards = new Card[SIZE];
-        deckPointer = deck.getDeckPointer();
-
-        for (int i = 0; i < SIZE; i++) {
-            cards[i] = new Card(deck.getCard(i));
-        }
-
-    }
-
     private Card getCard(int i) { return cards[i]; }
 
     public int getDeckPointer() { return deckPointer; }

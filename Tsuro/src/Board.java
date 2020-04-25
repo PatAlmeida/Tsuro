@@ -24,19 +24,6 @@ public class Board {
 
     }
 
-    public Board(Tsuro myTsuro, Board board) {
-
-        tsuro = myTsuro;
-
-        tiles = new Tile[DIM][DIM];
-        for (int i = 0; i < DIM; i++) {
-            for (int j = 0; j < DIM; j++) {
-                tiles[i][j] = new Tile(board.getTile(i, j));
-            }
-        }
-
-    }
-
     public void show(GraphicsContext gc) {
 
         gc.setFill(Color.GREY);

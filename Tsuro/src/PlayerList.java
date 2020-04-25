@@ -1,9 +1,10 @@
+import java.util.ArrayList;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 public class PlayerList {
 
-    public static final int SIZE = 1;
+    public static final int SIZE = Tsuro.NUM_PLAYERS;
 
     private Tsuro tsuro;
     private Player[] players;
@@ -11,14 +12,7 @@ public class PlayerList {
     public PlayerList(Tsuro myTsuro) {
         tsuro = myTsuro;
         players = new Player[SIZE];
-        if (Tsuro.TESTING) makeRandomPlayers();
-        else makePlayers();
-    }
-
-    public PlayerList(Tsuro myTsuro, PlayerList playerList) {
-        tsuro = myTsuro;
-        players = new Player[SIZE];
-        for (int i = 0; i < SIZE; i++) players[i] = new Player(tsuro, playerList.getPlayer(i));
+        makePlayers();
     }
 
     public void show(GraphicsContext gc) {
@@ -46,6 +40,14 @@ public class PlayerList {
         }
     }
 
+    public ArrayList<Integer> getLivingIDs() {
+        ArrayList<Integer> living = new ArrayList<Integer>();
+        for (Player player : players) {
+            if (!player.hasGoneOffBoard()) living.add(player.getID());
+        }
+        return living;
+    }
+
     public void resetLocationInfo(LocationInfo[] locationInfo) {
         for (int i = 0; i < SIZE; i++) players[i].resetTo(locationInfo[i]);
     }
@@ -65,28 +67,12 @@ public class PlayerList {
         return locs;
     }
 
-    // TESTING
-    public void testMakeMove() {
-        if (!players[0].hasGoneOffBoard()) players[0].playNonLosingMove();
-    }
-
-    // TESTING
-    private void makeRandomPlayers() {
-        for (int i = 0; i < SIZE; i++) {
-            int rx = (int) (Math.random() * (Board.DIM - 1));
-            int ry = (int) (Math.random() * (Board.DIM - 1));
-            int rs = (int) (Math.random() * Card.PATHS);
-            Color col = Color.color(Math.random(), Math.random(), Math.random());
-            players[i] = new Player(tsuro, tsuro.getBoardTile(ry, rx), i, rs, col);
-        }
-    }
-
-    public boolean hasPlayerGoneOffBoard(int pID) { return players[pID].hasGoneOffBoard(); }
-    private Player getPlayer(int i) { return players[i]; }
+    public boolean hasPlayerGoneOffBoard(int i) { return players[i].hasGoneOffBoard(); }
 
     public void showHand(GraphicsContext gc) { players[0].showHand(gc); }
     public void checkHandHover(double x, double y) { players[0].checkHandHover(x, y); }
     public void checkHandClick(double x, double y) { players[0].checkHandClick(x, y); }
     public void rotateHand() { players[0].rotateHand(); }
+    public void playNonLosingMoveFor(int i) { players[i].playNonLosingMove(); }
 
 }
