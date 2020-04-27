@@ -35,6 +35,7 @@ public class Hand {
     public int getCurSize() { return cards.size(); }
 
     public void setCard(int i, Card c) { cards.set(i, c); }
+    public void empty() { cards.clear(); }
 
     public void show(GraphicsContext gc) {
         int y = STARTY;
@@ -58,6 +59,10 @@ public class Hand {
         for (int i = 0; i < cards.size(); i++) {
             if (borders.get(i) == HOVER_COL) cards.get(i).incRot();
         }
+    }
+
+    public void addCardsToList(ArrayList<Card> leftoverCards) {
+        for (Card card : cards) leftoverCards.add(card);
     }
 
     public void playCard(int num) {
@@ -90,7 +95,7 @@ public class Hand {
                 tsuro.humanTurnFinish();
             }
         }
-        if (removeIndex != -1) cards.remove(removeIndex);
+        if (removeIndex != -1 && cards.size() != 0) cards.remove(removeIndex);
     }
 
 }

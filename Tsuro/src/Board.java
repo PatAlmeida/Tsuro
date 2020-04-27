@@ -42,6 +42,8 @@ public class Board {
             gc.strokeLine(Tile.SIZE*i + MARGIN, MARGIN, Tile.SIZE*i + MARGIN, SIZEY-MARGIN);
         }
 
+        if (Tsuro.SHOW_DECK_SIZE) tsuro.showDeckSize(gc);
+
     }
 
     public void playerFollowTile(Player player) {

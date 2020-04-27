@@ -25,10 +25,16 @@ public class Player {
 
     public void show(GraphicsContext gc) {
         Offsets off = Tile.getOffsets(spotIndex);
+        int x = tile.getRealX() + off.x - SIZE/2 - 2;
+        int y = tile.getRealY() + off.y - SIZE/2 - 2;
         gc.setFill(Color.BLACK);
-        gc.fillOval(tile.getRealX() + off.x - SIZE/2 - 2, tile.getRealY() + off.y - SIZE/2 - 2, SIZE + 4, SIZE + 4);
+        gc.fillOval(x, y, SIZE + 4, SIZE + 4);
         gc.setFill(color);
-        gc.fillOval(tile.getRealX() + off.x - SIZE/2, tile.getRealY() + off.y - SIZE/2, SIZE, SIZE);
+        gc.fillOval(x + 2, y + 2, SIZE, SIZE);
+        if (Tsuro.SHOW_PLAYER_HAND_SIZE) {
+            gc.setLineWidth(1);
+            gc.strokeText(hand.getCurSize() + "", x, y);
+        }
     }
 
     public static Color getRandomColor() {
@@ -84,7 +90,7 @@ public class Player {
             play = new HandIDRotPair(0, 0);
         }
 
-        if (!(noGoodMove && Tsuro.PATH_ANIM_TESTING)) {
+        if (!(noGoodMove && tsuro.onlyOnePlayerAlive())) {
             for (int i = 0; i < play.rotations; i++) hand.getCard(play.handID).incRot();
             hand.playCard(play.handID);
             tsuro.playersFollowPath();
@@ -98,9 +104,6 @@ public class Player {
         goneOffBoard = locInfo.goneOffBoard;
     }
 
-    private Hand getHand() { return hand; }
-    private Color getColor() { return color; }
-
     public int getNextSpotIndex() { return tile.getNextSpotIndex(spotIndex); }
     public int getTileX() { return tile.getX(); }
     public int getTileY() { return tile.getY(); }
@@ -108,6 +111,7 @@ public class Player {
     public int getID() { return id; }
     public int getSpotIndex() { return spotIndex; }
     public boolean hasGoneOffBoard() { return goneOffBoard; }
+    public int getNumCardsInHand() { return hand.getCurSize(); }
 
     public void showHand(GraphicsContext gc) { hand.show(gc); }
     public void checkHandHover(double x, double y) { hand.checkHover(x, y); }
@@ -117,5 +121,7 @@ public class Player {
     public void setSpotIndex(int newSI) { spotIndex = newSI; }
     public void wentOffBoard() { goneOffBoard = true; }
     public void resetOffBoard() { goneOffBoard = false; }
+    public void addLeftoverCardsToList(ArrayList<Card> lc) { hand.addCardsToList(lc); }
+    public void emptyHand() { hand.empty(); }
 
 }

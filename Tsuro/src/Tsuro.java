@@ -16,7 +16,8 @@ public class Tsuro extends Application {
     public static final boolean PLAY_GAME = true;
     public static final boolean HUMAN_PLAY = true;
     public static final boolean USE_SET_COLORS = true;
-    public static final boolean PATH_ANIM_TESTING = false;
+    public static final boolean SHOW_DECK_SIZE = true;
+    public static final boolean SHOW_PLAYER_HAND_SIZE = true;
 
     private Deck deck;
     private Board board;
@@ -45,6 +46,7 @@ public class Tsuro extends Application {
     public LocationInfo[] getPlayersLocationInfo() { return players.getAllLocationInfo(); }
     public boolean isHumanTurn() { return game.isHumanTurn(); }
     public ArrayList<Integer> getLivingPlayerIDs() { return players.getLivingIDs(); }
+    public boolean onlyOnePlayerAlive() { return players.onlyOnePlayerAlive(); }
 
     public void showBoard(GraphicsContext gc) { board.show(gc); }
     public void showPlayers(GraphicsContext gc) { players.show(gc); }
@@ -59,5 +61,8 @@ public class Tsuro extends Application {
     public void updateGame(int count) { game.update(count); }
     public void humanTurnFinish() { game.humanTurnFinish(); }
     public void playNonLosingMoveFor(int i) { players.playNonLosingMoveFor(i); }
+    public void checkLostCardsRemaining() { players.checkLostCardsRemaining(); }
+    public void resetDeckToInclude(ArrayList<Card> lc) { deck.resetToInclude(lc); }
+    public void showDeckSize(GraphicsContext gc) { deck.showSize(gc); }
 
 }

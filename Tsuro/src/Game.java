@@ -33,6 +33,9 @@ public class Game {
 
     public void advanceTurn(int justPlayed) {
 
+        // Check for players that just lost and put their cards back into "deck"
+        tsuro.checkLostCardsRemaining();
+
         livePlayerIDs = tsuro.getLivingPlayerIDs();
         if (livePlayerIDs.size() == 0) return;
 

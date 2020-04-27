@@ -52,10 +52,32 @@ public class PlayerList {
         for (int i = 0; i < SIZE; i++) players[i].resetTo(locationInfo[i]);
     }
 
+    public boolean onlyOnePlayerAlive() {
+        int count = 0;
+        for (Player player : players) {
+            if (!player.hasGoneOffBoard()) count++;
+        }
+        return (count == 1);
+    }
+
     public void followPath() {
         for (Player player : players) {
             tsuro.playerFollowPath(player);
         }
+    }
+
+    public void checkLostCardsRemaining() {
+
+        ArrayList<Card> leftoverCards = new ArrayList<Card>();
+        for (Player player : players) {
+            if (player.hasGoneOffBoard() && player.getNumCardsInHand() != 0) {
+                player.addLeftoverCardsToList(leftoverCards);
+                player.emptyHand();
+            }
+        }
+
+        if (leftoverCards.size() > 0) tsuro.resetDeckToInclude(leftoverCards);
+
     }
 
     public LocationInfo[] getAllLocationInfo() {
