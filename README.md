@@ -6,4 +6,4 @@ To play a card, hover over any of the three cards in your hand and click to add 
 
 The goal is to place as many tiles as possible while keeping your piece on the board. Try to be the last piece standing!
 
-Watch a video of the game in progress with a solo player in the 'demos' folder.
+Watch a video of the game in progress using four AI players in the 'demos' folder.
